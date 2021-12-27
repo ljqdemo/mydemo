@@ -1,5 +1,7 @@
 package com.ljq.mydemo.thread.test;
 
+import com.ljq.mydemo.util.Md5;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -111,7 +113,14 @@ public class FilePost {
     }
 
     public static void main(String[] args) {
-        String file="D:\\22\\weather\\test.mkv";
-        uploadFile(file);
+        String file="D:\\22\\weather\\play_list.tar.gz";
+        File file1=new File(file);
+        Integer c=0x10325476;
+        //6cdbfc28e1b00c9ffeaa400fb46de715
+
+        String newChecksum = new Md5(c).ComputeFileMd5(file1.getAbsolutePath());
+        System.out.println(newChecksum);
+        System.out.println(file1.length());
+       // uploadFile(file);
     }
 }

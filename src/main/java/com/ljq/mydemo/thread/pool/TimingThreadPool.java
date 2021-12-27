@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 
 /**
  * 定制线程池处理接口
- *
+ *前至拦截后置拦截
  * @author gino
  * 2021-12-10
  */
@@ -26,6 +26,7 @@ public class TimingThreadPool extends ThreadPoolExecutor {
         super.beforeExecute(t, r);
         log.fine(String.format("Thread :%s  Start: %s",t,r));
         startTime.set(System.nanoTime());
+        System.out.println(String.format("Thread :%s  Start: %s",t,r));
     }
 
     @Override
@@ -35,7 +36,16 @@ public class TimingThreadPool extends ThreadPoolExecutor {
 
     @Override
     protected void afterExecute(Runnable r, Throwable t) {
-        super.afterExecute(r, t);
+       try{
+           Long endTime = System.nanoTime();
+           Long  taskTime=endTime-startTime.get();
+           munTask.incrementAndGet();
+           totalTime.addAndGet(taskTime);
+           log.fine(String.format("Thread :%s  End: %s,time=%dns",t,r,taskTime));
+           System.out.println(String.format("Thread :%s  End: %s,time=%dns",t,r,taskTime));
+       }finally {
+           super.afterExecute(r, t);
+       }
     }
 
 
@@ -54,5 +64,25 @@ public class TimingThreadPool extends ThreadPoolExecutor {
 
     public TimingThreadPool(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue, ThreadFactory threadFactory, RejectedExecutionHandler handler) {
         super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
+    }
+
+    public static void main(String[] args) {
+
+        TimingThreadPool timingThreadPool = new TimingThreadPool(2, 3,
+                0L, TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<Runnable>());
+
+        for (int i = 0; i <2 ; i++) {
+            int finalI = i;
+            timingThreadPool.execute(()->{
+                if (finalI >0){
+                    System.out.println("222222222222222222222");
+                }else {
+                    System.out.println("111111111111111111111111");
+                }
+
+            });
+        }
+        timingThreadPool.shutdown();
     }
 }

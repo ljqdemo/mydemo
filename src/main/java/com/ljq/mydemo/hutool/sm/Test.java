@@ -8,6 +8,8 @@ import cn.hutool.crypto.asymmetric.SM2;
 
 import java.security.KeyPair;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * SM2国密加密
@@ -19,11 +21,22 @@ import java.time.LocalDateTime;
 public class Test {
     public static void main(String[] args) {
 
+
+        Map<String,String> map=new HashMap<>();
+        Map<String, String> finalMap = map;
+        System.out.println(finalMap.get("11"));
+        Integer a=1;
+        Long b=1L;
+        if ((a==b.intValue())) {
+
+        }
+
 String text="assdasdada---11111";
             LocalDateTime now = LocalDateTime.now();
             System.out.println(now.toString());
 
             System.out.println( now.plusDays(7));
+
 
 
         KeyPair pair = SecureUtil.generateKeyPair("SM2");
