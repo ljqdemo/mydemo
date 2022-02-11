@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * 使用Semaphore 为容器设置 边界值
@@ -76,6 +77,7 @@ public class BoundHashSet<T> {
     public static void main(String[] args) throws InterruptedException {
         BoundHashSet hashSet = new BoundHashSet<Integer>(5);
         Thread thread1 = new Thread(() -> {
+            ThreadLocalRandom.current().nextBoolean();
             for (int i = 0; i < 5; i++) {
                 try {
                     System.out.println("add the thread1 of " + i + " run:" + hashSet.add(i));

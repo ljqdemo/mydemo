@@ -1,4 +1,4 @@
-package com.ljq.mydemo.thread.test;
+package com.ljq.mydemo.thread.readWrite;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;

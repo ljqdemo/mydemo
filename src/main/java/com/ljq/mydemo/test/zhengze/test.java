@@ -17,7 +17,7 @@ public class test {
 
         List<String> a=new ArrayList<>();
 
-a.add("a");
+        a.add("a");
         a.add("a");
 
         List<String> collect = a.stream().distinct().collect(Collectors.toList());

